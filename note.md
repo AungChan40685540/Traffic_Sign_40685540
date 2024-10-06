@@ -54,18 +54,29 @@
 `images= np.array(images)`
 - (10111, 32, 32, 3) means 10111 is number of images, 32 by 32 images, 3 channel mean color RBG
 
+**CurrentImage will contain a NumPy array representing the image. This array has a shape of (height, width, channels), where channels can be 3 (for RGB images) or 1 (for grayscale images).**
+
 ```python
-for x in range(0, len(myList)):
-    myPicList = os.listdir(path + "/" + str(count))
-    for y in myPicList:
-        curImg = cv2.imread(path + "/" + str(count) + "/" + y)
-        images.append(curImg)
-        classNo.append(count)
-    print(count, end=" ")
-    count += 1
+for x in range(0, lengthOfClasses): # x is folder
+    imagesList = os.listdir(os.path.join(folder_path, str(x))) # each (x) folder in trafficSignData 
+    for img in imagesList:
+        currentImage = cv2.imread(folder_path + "/" + str(x) + "/" + img) # trafficSignData --> x folder --> img = images
+        if currentImage is not None:  # Check if the image was loaded successfully
+            currentImage = cv2.resize(currentImage, imageDimesions) # Resize to the dimensions tp 32 X 32 pixels
+            images.append(currentImage)
+            classNumber.append(x)
+        else:
+            print(f"It is wrong folder path {folder_path}")
+    print(x, end=" ")
 print(" ")
 ```
-- currentImage will contain a NumPy array representing the image. This array has a shape of (height, width, channels), where channels can be 3 (for RGB images) or 1 (for grayscale images)
+**Convert list to numpy array**
+```python
+images = np.array(images)
+classNumber = np.array(classNumber)
+```
+
+---
 
 **2) Split the data**
 

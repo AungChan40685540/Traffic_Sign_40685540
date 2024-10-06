@@ -1,5 +1,14 @@
-# Ignore the trafficSignData folder and its contents
-trafficSignData/
+# Ignore all image files
+*.jpg
+*.jpeg
+*.png
+*.gif
+*.bmp
+*.tiff
+*.svg
+
+# Ignore all CSV files
+*.csv
 
 # Ignore Python bytecode files
 __pycache__/
@@ -26,7 +35,7 @@ env.bak/
 .DS_Store
 Thumbs.db
 
-# Ignore other common files
+# Ignore backup and temporary files
 *.bak
 *.tmp
 *.temp

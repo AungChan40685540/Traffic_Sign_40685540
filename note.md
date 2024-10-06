@@ -28,6 +28,10 @@
 - matplotlib
 - tensorflow
 
+**Code**
+`pip install tensorflow opencv-python pandas matplotlib scikit-learn
+`
+
 ---
 
 ### Coding
@@ -49,6 +53,19 @@
 
 `images= np.array(images)`
 - (10111, 32, 32, 3) means 10111 is number of images, 32 by 32 images, 3 channel mean color RBG
+
+```python
+for x in range(0, len(myList)):
+    myPicList = os.listdir(path + "/" + str(count))
+    for y in myPicList:
+        curImg = cv2.imread(path + "/" + str(count) + "/" + y)
+        images.append(curImg)
+        classNo.append(count)
+    print(count, end=" ")
+    count += 1
+print(" ")
+```
+- currentImage will contain a NumPy array representing the image. This array has a shape of (height, width, channels), where channels can be 3 (for RGB images) or 1 (for grayscale images)
 
 **2) Split the data**
 
@@ -75,6 +92,8 @@ Why do we need that ?
 **Np function**
 - we use np function to check the how many images that the each class have ?
 - X_train contain = actual images, Y_train contain = the ids of each image
-- The below code tell us index of where 0 class is present
+- The below code tell us all index of where 0 class is present
 - For example stop sign is in class number 0
 `np.where(y_train==0)`
+- Find the total length of class 0
+`len(np.where(y_train==0)[0])`

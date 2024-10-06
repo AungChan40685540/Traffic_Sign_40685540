@@ -1,52 +1,33 @@
-# Ignore the TrafficSignData folder and all its contents
+# Ignore the trafficSignData folder and its contents
 trafficSignData/
 
-# Ignore the label.csv file
-label.csv
-
-# Ignore Python cache files
+# Ignore Python bytecode files
 __pycache__/
 *.py[cod]
 
 # Ignore Jupyter Notebook checkpoints
 .ipynb_checkpoints/
 
-# Ignore virtual environment directories
-venv/
-env/
-.env/
-
-# Ignore IDE-specific files
-.vscode/
-.idea/
-
-# Ignore OS-specific files
-.DS_Store
-Thumbs.db
-
 # Ignore log files
 *.log
 
-# Ignore temporary files
+# Ignore virtual environment directories
+venv/
+env/
+env.bak/
+
+# Ignore IDE and editor-specific files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Ignore operating system files
+.DS_Store
+Thumbs.db
+
+# Ignore other common files
+*.bak
 *.tmp
 *.temp
-*.bak
-
-# Ignore coverage reports
-.coverage
-htmlcov/
-*.cover
-
-# Ignore compiled files
-*.o
-*.so
-*.exe
-*.dll
-
-# Ignore data files (if any specific types)
-*.csv
-*.tsv
-*.xlsx
-
-# Ignore any other files you may want to exclude
-# Add more rules as needed
+*.orig

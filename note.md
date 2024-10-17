@@ -28,6 +28,10 @@
 - matplotlib
 - tensorflow
 
+**Code**
+`pip install tensorflow opencv-python pandas matplotlib scikit-learn
+`
+
 ---
 
 ### Coding
@@ -49,6 +53,30 @@
 
 `images= np.array(images)`
 - (10111, 32, 32, 3) means 10111 is number of images, 32 by 32 images, 3 channel mean color RBG
+
+**CurrentImage will contain a NumPy array representing the image. This array has a shape of (height, width, channels), where channels can be 3 (for RGB images) or 1 (for grayscale images).**
+
+```python
+for x in range(0, lengthOfClasses): # x is folder
+    imagesList = os.listdir(os.path.join(folder_path, str(x))) # each (x) folder in trafficSignData 
+    for img in imagesList:
+        currentImage = cv2.imread(folder_path + "/" + str(x) + "/" + img) # trafficSignData --> x folder --> img = images
+        if currentImage is not None:  # Check if the image was loaded successfully
+            currentImage = cv2.resize(currentImage, imageDimesions) # Resize to the dimensions tp 32 X 32 pixels
+            images.append(currentImage)
+            classNumber.append(x)
+        else:
+            print(f"It is wrong folder path {folder_path}")
+    print(x, end=" ")
+print(" ")
+```
+**Convert list to numpy array**
+```python
+images = np.array(images)
+classNumber = np.array(classNumber)
+```
+
+---
 
 **2) Split the data**
 
@@ -75,6 +103,8 @@ Why do we need that ?
 **Np function**
 - we use np function to check the how many images that the each class have ?
 - X_train contain = actual images, Y_train contain = the ids of each image
-- The below code tell us index of where 0 class is present
+- The below code tell us all index of where 0 class is present
 - For example stop sign is in class number 0
 `np.where(y_train==0)`
+- Find the total length of class 0
+`len(np.where(y_train==0)[0])`

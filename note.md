@@ -108,3 +108,7 @@ Why do we need that ?
 `np.where(y_train==0)`
 - Find the total length of class 0
 `len(np.where(y_train==0)[0])`
+
+### Switch to Macbook
+- checking code are working
+- working successsful!

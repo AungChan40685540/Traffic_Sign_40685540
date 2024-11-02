@@ -5,7 +5,7 @@
 **Steps by Step**
 - Imports various libraries
 - Parameters Setup
-- Data Loading and Processing
+- Data Loading and Checking
 - CSV File for Labels
 - Visualizing the Data
 - Preprocessing the Images

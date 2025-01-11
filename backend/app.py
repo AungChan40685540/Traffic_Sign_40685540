@@ -50,37 +50,9 @@ def preprocess_image(img):
 def get_class_name(class_no):
     return class_names.get(class_no, "Unknown")
 
-# Video feed generator that sends frames to React in real-time
-def video_feed():
-    cap = cv2.VideoCapture(0)  # Use the default webcam
-    while True:
-        success, frame = cap.read()
-        if not success:
-            break
+cap = None
+is_running = False
 
-        # Preprocess the frame for prediction
-        img = preprocess_image(frame)
-        predictions = model.predict(img)
-        class_index = np.argmax(predictions)
-        probability = np.max(predictions)
-
-        if probability > 0.6:
-            # Text color set to green (in BGR format: (0, 255, 0) for green)
-            color = (0, 255, 0)
-            
-            # Font size set to 24 and thickness to 3 for better visibility
-            cv2.putText(frame, f"Type Of Class: {get_class_name(class_index)}", (20, 35),
-                        cv2.FONT_HERSHEY_SIMPLEX, 1.6, color, 3)
-            cv2.putText(frame, f"Accuracy of the image: {round(probability * 100, 2)}%", (20, 75),
-                        cv2.FONT_HERSHEY_SIMPLEX, 1.6, color, 3)
-
-        # Encode the frame as JPEG and send to React frontend
-        _, buffer = cv2.imencode('.jpg', frame)
-        frame = buffer.tobytes()
-        yield (b'--frame\r\n'
-               b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
-
-    cap.release()
 
 @app.route('/')
 def index():
@@ -88,7 +60,20 @@ def index():
 
 @app.route('/video_feed')
 def real_time_classification():
+    global cap, is_running
+    if cap is None or not cap.isOpened():
+        cap = cv2.VideoCapture(0)  # Initialize the webcam
+    is_running = True
     return Response(video_feed(), mimetype='multipart/x-mixed-replace; boundary=frame')
+
+@app.route('/stop_feed', methods=['POST'])
+def stop_feed():
+    global cap, is_running
+    is_running = False  # Stop the video feed loop
+    if cap and cap.isOpened():
+        cap.release()  # Release the webcam
+        cap = None  # Reset the capture object
+    return '', 200
 
 @app.route('/classify_image', methods=['POST'])
 def imag_classification():
@@ -117,6 +102,41 @@ def imag_classification():
             "probability": round(probability, 2),
             "image_path": file_path
         })
+
+# Video feed generator that sends frames to React in real-time
+def video_feed():
+    global cap, is_running
+    #cap = cv2.VideoCapture(0)  # Use the default webcam
+    while is_running:
+        success, frame = cap.read()
+        if not success:
+            break
+
+        # Preprocess the frame for prediction
+        img = preprocess_image(frame)
+        predictions = model.predict(img)
+        class_index = np.argmax(predictions)
+        probability = np.max(predictions)
+
+        if probability > 0.6:
+            # Text color set to green (in BGR format: (0, 255, 0) for green)
+            color = (0, 255, 0)
+            
+            # Font size set to 24 and thickness to 3 for better visibility
+            cv2.putText(frame, f"Type Of Class: {get_class_name(class_index)}", (20, 35),
+                        cv2.FONT_HERSHEY_SIMPLEX, 1.6, color, 3)
+            cv2.putText(frame, f"Accuracy of the image: {round(probability * 100, 2)}%", (20, 75),
+                        cv2.FONT_HERSHEY_SIMPLEX, 1.6, color, 3)
+
+        # Encode the frame as JPEG and send to React frontend
+        _, buffer = cv2.imencode('.jpg', frame)
+        frame = buffer.tobytes()
+        yield (b'--frame\r\n'
+               b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
+
+    if cap and cap.isOpened():
+        cap.release()
+        cap = None
 
 if __name__ == '__main__':
     app.run(debug=True)

@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import Welcome from "../components/Welcome";
 import { FaBars } from "react-icons/fa";
 import Gallery from "../components/Gallery";
+import Services from "../components/Services";
 
 
 const Home = () => {
@@ -90,6 +91,9 @@ const Home = () => {
             </div>
           </nav>
         </header>
+        <div className=" p-10 bg-white text-black">
+            
+        </div>
         </div>
         
 
@@ -98,6 +102,8 @@ const Home = () => {
 
         {/* Traffic Sign */}
         <Gallery theme={theme} setTheme={setTheme} />
+
+        <Services theme={theme} setTheme={setTheme} />
        
       </div>
     </div>

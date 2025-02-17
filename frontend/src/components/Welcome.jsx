@@ -8,11 +8,11 @@ const Welcome = ({ theme, setTheme }) => {
   return (
     <>
       <div className="flex flex-col items-center justify-center text-center space-y-6 lg:py-32 md:py-28 py-24 md:min-h-[730px]">
-        <h1 className=" italic text-4xl md:text-5xl karla-title">
+        <h1 className=" italic text-3xl md:text-5xl karla-title">
           A Traffic Sign Classification{" "}
           <span className=" italic text-[#FF1377]">System</span>
         </h1>
-        <p className="text-lg md:text-xl karla-title">
+        <p className="text-sm md:text-xl karla-title">
           Teaching machines to understand the language of the road.
         </p>
         <button className="px-8 py-3 bg-[#1E1E59] text-white rounded-full hover:bg-[#FF1377] hover:text-white">
